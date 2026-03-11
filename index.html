@@ -3,23 +3,160 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sum Two Numbers :) </title>
+  <title>Math Operations Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #f5f5f5;
+    }
+    h1 {
+      color: #333;
+      text-align: center;
+    }
+    .calculator {
+      background-color: white;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+    .input-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    input {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      min-width: 120px;
+    }
+    select {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 14px;
+      background-color: white;
+      cursor: pointer;
+    }
+    button {
+      padding: 10px 20px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    button:active {
+      background-color: #3d8b40;
+    }
+    .result-section {
+      margin-top: 25px;
+      padding: 20px;
+      background-color: #f0f7ff;
+      border-left: 4px solid #2196F3;
+      border-radius: 4px;
+    }
+    .result-section label {
+      font-weight: bold;
+      color: #333;
+      display: block;
+      margin-bottom: 10px;
+    }
+    .result-value {
+      font-size: 24px;
+      color: #2196F3;
+      font-weight: bold;
+    }
+    .error {
+      color: #f44336;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-  <h1>Sum Two Int Numbers =) </h1>
-  <input type="number" id="num1" placeholder="First number" />
-  <span> + </span>
-  <input type="number" id="num2" placeholder="Second number" />
-  <button type="button" id="btnSum">Sum</button>
-  <p>Result: <strong id="result">—</strong></p>
+  <h1>Math Operations Calculator</h1>
+  
+  <div class="calculator">
+    <div class="input-group">
+      <input type="number" id="num1" placeholder="First number" />
+      
+      <select id="operation">
+        <option value="add">+</option>
+        <option value="subtract">-</option>
+        <option value="multiply">×</option>
+        <option value="divide">÷</option>
+      </select>
+      
+      <input type="number" id="num2" placeholder="Second number" />
+      
+      <button type="button" id="btnCalculate">Calculate</button>
+    </div>
 
-  <!-- Link to the compiled JS (compile sum.ts with: tsc sum.ts) -->
+    <div class="result-section">
+      <label>Result:</label>
+      <div class="result-value" id="result">—</div>
+    </div>
+  </div>
+
+  <!-- Link to the compiled JS files -->
   <script src="sum.js"></script>
+  <script src="subtract.js"></script>
+  <script src="multiply.js"></script>
+  <script src="divide.js"></script>
+  
   <script>
-    document.getElementById('btnSum').addEventListener('click', function () {
+    document.getElementById('btnCalculate').addEventListener('click', function () {
       var a = Number(document.getElementById('num1').value) || 0;
       var b = Number(document.getElementById('num2').value) || 0;
-      document.getElementById('result').textContent = sum(a, b);
+      var operation = document.getElementById('operation').value;
+      var resultElement = document.getElementById('result');
+      
+      try {
+        var result;
+        
+        switch(operation) {
+          case 'add':
+            result = sum(a, b);
+            break;
+          case 'subtract':
+            result = subtract(a, b);
+            break;
+          case 'multiply':
+            result = multiply(a, b);
+            break;
+          case 'divide':
+            result = divide(a, b);
+            break;
+          default:
+            result = 0;
+        }
+        
+        resultElement.textContent = result;
+        resultElement.className = '';
+      } catch (error) {
+        resultElement.textContent = error.message;
+        resultElement.className = 'error';
+      }
+    });
+
+    // Allow Enter key to calculate
+    document.getElementById('num1').addEventListener('keypress', function(e) {
+      if(e.key === 'Enter') document.getElementById('btnCalculate').click();
+    });
+    
+    document.getElementById('num2').addEventListener('keypress', function(e) {
+      if(e.key === 'Enter') document.getElementById('btnCalculate').click();
     });
   </script>
 </body>
